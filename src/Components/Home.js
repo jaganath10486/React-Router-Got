@@ -33,6 +33,18 @@ function Home() {
          let items =   searchParams.get('filter') ? charcters.filter(item => item.lastName === searchParams.get('filter')) : charcters
         return items.filter(item => item.fullName.toLowerCase().includes(text.toLowerCase()))
     }
+    const filter = (event) => {
+      if(event.target.value == 0)
+      {
+        setSearchParams({})
+      }
+      else
+      {
+        setSearchParams({
+          filter : event.target.value
+        })
+      }
+    }
 
   return (
     <div className=' container characters'>
@@ -47,8 +59,8 @@ function Home() {
                     <input type="text" className="form-control" id="exampleInputText" placeholder='Search by Name' value={text} onChange={(event) => {setText(event.target.value)}}/>
                 </div>
                 <div className='col'>
-                   <select className="form-select" onChange={(event) => {setSearchParams({filter : event.target.value})}}>
-                     <option selected value={{}}>Filter the Characters </option>
+                   <select className="form-select" onChange={filter}>
+                     <option selected value='0'>Filter the Characters </option>
                      <option value="Stark">Stark</option>
                      <option value="Targaryen">Targaryen</option>
                      <option value="Baratheon">Baratheon</option>
