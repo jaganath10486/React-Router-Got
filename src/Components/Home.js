@@ -18,7 +18,7 @@ function Home() {
         setLoading(true)
         axios.get('https://thronesapi.com/api/v2/Characters')
         .then((Response) => {
-            console.log(Response.data)
+            //console.log(Response.data)
             seterrorMessage('')
             setcharacters(Response.data)
             setLoading(false)
@@ -48,7 +48,9 @@ function Home() {
 
   return (
     <div className=' container characters'>
-         
+        {
+          errorMessage && <div className='error'>{errorMessage}</div>
+        }   
         {
             loading ?
             (<div className="lds-dual-ring"></div>)
@@ -78,6 +80,7 @@ function Home() {
                 </div>
             </div>)
         }
+        
     </div>
   )
 }
