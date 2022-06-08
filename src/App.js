@@ -3,6 +3,8 @@ import {Routes, Route} from 'react-router-dom'
 import Home from './Components/Home';
 import Character from './Components/Character';
 import NotFound from './Components/NotFound';
+import 'bootstrap/dist/css/bootstrap.min.css';
+
 
 function App() {
   return (

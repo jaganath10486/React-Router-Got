@@ -9,8 +9,12 @@ function Home() {
     const [charcters, setcharacters] = useState([])
     const [loading, setLoading] = useState(false)
     const [errorMessage, seterrorMessage] = useState('')
-    
+    const [text, setText] = useState('')
+    const [searchParams, setSearchParams] = useSearchParams()
+
     useEffect(() => {
+       setSearchParams({
+        })
         setLoading(true)
         axios.get('https://thronesapi.com/api/v2/Characters')
         .then((Response) => {
@@ -24,16 +28,40 @@ function Home() {
         })
     }, [])
 
+    const search = () => {
+       
+         let items =   searchParams.get('filter') ? charcters.filter(item => item.lastName === searchParams.get('filter')) : charcters
+        return items.filter(item => item.fullName.toLowerCase().includes(text.toLowerCase()))
+    }
+
   return (
-    <div className='container characters'>
+    <div className=' container characters'>
+         
         {
             loading ?
             (<div className="lds-dual-ring"></div>)
               : 
             (<div className = 'character-inner'>
+              <div className='row'>
+                <div className="mb-3 col">
+                    <input type="text" className="form-control" id="exampleInputText" placeholder='Search by Name' value={text} onChange={(event) => {setText(event.target.value)}}/>
+                </div>
+                <div className='col'>
+                   <select className="form-select" onChange={(event) => {setSearchParams({filter : event.target.value})}}>
+                     <option selected value={{}}>Filter the Characters </option>
+                     <option value="Stark">Stark</option>
+                     <option value="Targaryen">Targaryen</option>
+                     <option value="Baratheon">Baratheon</option>
+                     <option value="Lannister">Lannister</option>
+                     <option value="Tyrell">Tyrell</option>
+                     <option value="Bolton">Bolton</option>
+                     <option value="Greyjoy">Greyjoy</option>
+                   </select>
+                </div>
+              </div>
                 <div className='row'>
                     {
-                        charcters.map(char => <Card key={char.id} id = {char.id} name = {char.fullName} imageUrl = {char.imageUrl}/>)
+                        search().map(char => <Card key={char.id} id = {char.id} name = {char.fullName} imageUrl = {char.imageUrl}/>)
                     }
                 </div>
             </div>)
